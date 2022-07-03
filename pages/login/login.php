@@ -13,15 +13,10 @@ $smarty->setCacheDir(__DIR__ . '../../../vendor/smarty/smarty/cache');
 
 $smarty->assign('dir', '../../');
 $smarty->assign('page_title', 'Login');
-$smarty->assign('username_session', $_SESSION['username']);
 
 $smarty->display('meta.tpl');
-?>
-<header class="container-fluid d-flex justify-content-center align-items-center bg-light shadow p-3 mb-5">
-    <?php $smarty->display('header.tpl'); ?>
-</header>
+$smarty->display('sec-header.tpl');
 
-<?php
 if (isset($_POST['username'])) {
     $username = stripslashes($_REQUEST['username']);
     $username = mysqli_real_escape_string($con, $username);

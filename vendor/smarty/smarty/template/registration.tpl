@@ -1,5 +1,5 @@
 <main class="container">
-    <form action="" method="post">
+    <form action="" method="post" class="mt-5">
 
         <div class="form-outline mb-4">
             <label class="form-label" for="username">Username</label>

@@ -15,18 +15,7 @@ $smarty->assign('page_title', 'Contact List');
 $smarty->assign('username_session', $_SESSION['username']);
 
 $smarty->display('meta.tpl');
-?>
-<header class="container-fluid d-flex justify-content-between align-items-center bg-light shadow p-3">
-    <?php
-    $smarty->display('header.tpl');
-    ?>
-    <div class="form d-flex flex-column justify-content-between align-items-center">
-        <p>Welcome <?=$_SESSION['username']?>!</p>
-        <a href="./pages/login/login.php">Logout</a>
-    </div>
-</header>
-
-<?php
+$smarty->display('main-header.tpl');
 
 $count = 1;
 
@@ -65,8 +54,6 @@ if (isset($_GET['search'])) {
 $smarty->assign('search_str', $search_str);
 
 $smarty->display('index.tpl');
-?>
-<?php
 
 $count = 1;
 $sel_query = "Select * from records WHERE submittedby = '$_SESSION[username]';";

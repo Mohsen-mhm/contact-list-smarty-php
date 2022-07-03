@@ -15,16 +15,8 @@ $smarty->assign('page_title', 'Edit Contact');
 $smarty->assign('username_session', $_SESSION['username']);
 
 $smarty->display('meta.tpl');
-?>
-<header class="container-fluid d-flex justify-content-between align-items-center bg-light shadow p-3">
-    <?php $smarty->display('header.tpl'); ?>
-    <div class="form d-flex flex-column justify-content-between align-items-center">
-        <p>Welcome <?= $_SESSION['username'] ?>!</p>
-        <a href="../login/login.php">Logout</a>
-    </div>
-</header>
+$smarty->display('main-header.tpl');
 
-<?php
 $id = $_REQUEST['id'];
 $query = "SELECT * from records where id='" . $id . "'";
 $queryImg = "Select * from records ORDER BY id desc;";
