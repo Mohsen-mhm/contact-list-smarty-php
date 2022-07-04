@@ -4,6 +4,8 @@ include("auth.php");
 require __DIR__ . ('/vendor/autoload.php');
 require __DIR__ . ('/vendor/smarty/smarty/libs/Smarty.class.php');
 require __DIR__ . ('/vendor/smarty/smarty/libs/sysplugins/smarty_function_create_dom.php');
+require __DIR__ . ('/vendor/smarty/smarty/libs/plugins/search_sort_pagination.php');
+require __DIR__ . ('/vendor/smarty/smarty/libs/plugins/pagination.php');
 
 $smarty = new Smarty();
 $smarty->setTemplateDir(__DIR__ . '/vendor/smarty/smarty/template');
@@ -76,47 +78,9 @@ if (isset($_GET['search'])) {
         smarty_function_createDOM($count, $image_src, $search);
         $count++;
     }
-?>
-    </tbody>
-    </table>
-    <nav class="d-flex justify-content-center align-items-center mt-4 mb-3">
-        <ul class="pagination justify-content-center">
-            <?php
-            if ($sPage >= 2) {
-                echo '
-                        <li class="page-item">
-                            <a class="page-link" href="index.php?search=' . $search_str . '&sPage=1">1</a>
-                        </li>';
-            }
-            if ($sPage >= 3) {
-                echo '
-                        <li class="page-item" disabled>
-                            <a class="page-link">...</a>
-                        </li>';
-            }
-            echo '
-                        <li class="page-item">
-                            <a class="page-link" href="index.php?search=' . $search_str . '&sPage=' . $sPage . '">' . $sPage . ' </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="index.php?search=' . $search_str . '&sPage=' . $sPage + 1 . '">' . $sPage + 1 . ' </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="index.php?search=' . $search_str . '&sPage=' . $sPage + 2 . '">' . $sPage + 2 . ' </a>
-                        </li>
-                        <li class="page-item" disabled>
-                            <a class="page-link">...</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="index.php?search=' . $search_str . '&sPage=' . $number_of_sPage - 2 . '">' . $number_of_sPage - 2 . ' </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="index.php?search=' . $search_str . '&sPage=' . $number_of_sPage - 1 . '">' . $number_of_sPage - 1 . ' </a>
-                        </li>';
-            ?>
-        </ul>
-    </nav>
-<?php
+    $smarty->display('tPagination.tpl');
+    search_sort_pagination($sPage, $search_str, $number_of_sPage, 'search', 'sPage');
+    $smarty->display('bPagination.tpl');
 } else if (isset($_GET['sort-by'])) {
     $sortBy = $_GET['sort-by'];
 
@@ -160,47 +124,9 @@ if (isset($_GET['search'])) {
             $count++;
         }
     }
-?>
-    </tbody>
-    </table>
-    <nav class="d-flex justify-content-center align-items-center mt-4 mb-3">
-        <ul class="pagination justify-content-center">
-            <?php
-            if ($sort_page >= 2) {
-                echo '
-                        <li class="page-item">
-                            <a class="page-link" href="index.php?sort-by=' . $sortBy . '&sortPage=1">1</a>
-                        </li>';
-            }
-            if ($sort_page >= 3) {
-                echo '
-                        <li class="page-item" disabled>
-                            <a class="page-link">...</a>
-                        </li>';
-            }
-            echo '
-                        <li class="page-item">
-                            <a class="page-link" href="index.php?sort-by=' . $sortBy . '&sortPage=' . $sort_page . '">' . $sort_page . ' </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="index.php?sort-by=' . $sortBy . '&sortPage=' . $sort_page + 1 . '">' . $sort_page + 1 . ' </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="index.php?sort-by=' . $sortBy . '&sortPage=' . $sort_page + 2 . '">' . $sort_page + 2 . ' </a>
-                        </li>
-                        <li class="page-item" disabled>
-                            <a class="page-link">...</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="index.php?sort-by=' . $sortBy . '&sortPage=' . $number_of_sort_page - 2 . '">' . $number_of_sort_page - 2 . ' </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="index.php?sort-by=' . $sortBy . '&sortPage=' . $number_of_sort_page - 1 . '">' . $number_of_sort_page - 1 . ' </a>
-                        </li>';
-            ?>
-        </ul>
-    </nav>
-<?php
+    $smarty->display('tPagination.tpl');
+    search_sort_pagination($sort_page, $sortBy, $number_of_sort_page, 'sort-by', 'sortPage');
+    $smarty->display('bPagination.tpl');
 } else {
     while ($row = mysqli_fetch_assoc($result)) {
         $image = $row['avatar'];
@@ -208,56 +134,8 @@ if (isset($_GET['search'])) {
         smarty_function_createDOM($count, $image_src, $row);
         $count++;
     }
-?>
-    </tbody>
-    </table>
-    <nav class="d-flex justify-content-center align-items-center mt-4 mb-3">
-        <ul class="pagination justify-content-center">
-            <?php
-            if ($page >= 2) {
-                echo '
-                        <li class="page-item">
-                            <a class="page-link" href="index.php?page=1">1</a>
-                        </li>';
-            }
-            if ($page >= 3) {
-                echo '
-                        <li class="page-item" disabled>
-                            <a class="page-link">...</a>
-                        </li>';
-            }
-            echo '
-                        <li class="page-item">
-                            <a class="page-link" href="index.php?page=' . $page . '">' . $page . ' </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="index.php?page=' . $page + 1 . '">' . $page + 1 . ' </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="index.php?page=' . $page + 2 . '">' . $page + 2 . ' </a>
-                        </li>
-                        <li class="page-item" disabled>
-                            <a class="page-link">...</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="index.php?page=' . $number_of_page - 2 . '">' . $number_of_page - 2 . ' </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="index.php?page=' . $number_of_page - 1 . '">' . $number_of_page - 1 . ' </a>
-                        </li>';
-            ?>
-        </ul>
-    </nav>
-<?php
+    $smarty->display('tPagination.tpl');
+    pagination($page, $number_of_page);
+    $smarty->display('bPagination.tpl');
 }
-?>
-</main>
-
-<script src="vendor/bootstrap/bootstrap-js/bootstrap.bundle.min.js"></script>
-<script src="vendor/jquery/jquery-3.6.0.min.js"></script>
-<script src="functions/app.js"></script>
-</body>
-
-</html>
-<?php
-?>
+$smarty->display('footer.tpl');
