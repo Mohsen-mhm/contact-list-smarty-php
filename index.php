@@ -3,6 +3,7 @@ require('db.php');
 include("auth.php");
 require __DIR__ . ('/vendor/autoload.php');
 require __DIR__ . ('/vendor/smarty/smarty/libs/Smarty.class.php');
+require __DIR__ . ('/vendor/smarty/smarty/libs/sysplugins/smarty_function_create_dom.php');
 
 $smarty = new Smarty();
 $smarty->setTemplateDir(__DIR__ . '/vendor/smarty/smarty/template');
@@ -18,28 +19,6 @@ $smarty->display('meta.tpl');
 $smarty->display('main-header.tpl');
 
 $count = 1;
-
-function createDOM($count, $image_src, $result)
-{
-?>
-    <tr class="list-item">
-        <td class="text-center"><b><?php echo $count; ?></b></td>
-        <td class="text-center">
-            <div class="w-100">
-                <img src="<?php echo $image_src; ?>" alt="" class="rounded-circle" style="width: 45px;">
-            </div>
-        </td>
-        <td class="text-center"><?php echo $result["name"]; ?></td>
-        <td class="text-center table-responsive"><?php echo $result["email"]; ?></td>
-        <td class="text-center table-responsive"><?php echo $result["phone"]; ?></td>
-        <td class="text-center">
-            <a href="./pages/edit-contact/edit-contact.php?id=<?php echo $result["id"]; ?>"><i class="far fa-edit p-2 btn btn-primary"></i></a>
-            <a href="./pages/delete/delete.php?id=<?php echo $result["id"]; ?>"><i class="far fa-trash p-2 btn btn-danger"></i></a>
-        </td>
-    </tr>
-<?php
-}
-
 $count_contact_query = "SELECT COUNT(`submittedby`) FROM `records` WHERE `submittedby` = '$_SESSION[username]';";
 $result_number = mysqli_query($con, $count_contact_query);
 $num = mysqli_fetch_assoc($result_number);
@@ -94,7 +73,7 @@ if (isset($_GET['search'])) {
     while ($search = mysqli_fetch_assoc($search_result)) {
         $image = $search['avatar'];
         $image_src = "img/" . $image;
-        createDOM($count, $image_src, $search);
+        smarty_function_createDOM($count, $image_src, $search);
         $count++;
     }
 ?>
@@ -159,7 +138,7 @@ if (isset($_GET['search'])) {
         while ($result = mysqli_fetch_assoc($result_sort)) {
             $image = $result['avatar'];
             $image_src = "img/" . $image;
-            createDOM($count, $image_src, $result);
+            smarty_function_createDOM($count, $image_src, $result);
             $count++;
         }
     } else if ($sortBy == 'email') {
@@ -168,7 +147,7 @@ if (isset($_GET['search'])) {
         while ($result = mysqli_fetch_assoc($result_sort)) {
             $image = $result['avatar'];
             $image_src = "img/" . $image;
-            createDOM($count, $image_src, $result);
+            smarty_function_createDOM($count, $image_src, $result);
             $count++;
         }
     } else if ($sortBy == 'phone') {
@@ -177,7 +156,7 @@ if (isset($_GET['search'])) {
         while ($result = mysqli_fetch_assoc($result_sort)) {
             $image = $result['avatar'];
             $image_src = "img/" . $image;
-            createDOM($count, $image_src, $result);
+            smarty_function_createDOM($count, $image_src, $result);
             $count++;
         }
     }
@@ -226,7 +205,7 @@ if (isset($_GET['search'])) {
     while ($row = mysqli_fetch_assoc($result)) {
         $image = $row['avatar'];
         $image_src = "img/" . $image;
-        createDOM($count, $image_src, $row);
+        smarty_function_createDOM($count, $image_src, $row);
         $count++;
     }
 ?>
