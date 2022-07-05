@@ -1,11 +1,13 @@
 # Contact list with PHP & mySQL & Smarty
 
 ## This is a contact list project.
+
 --------------------------------------------------
 
 First create Database *register* by this command:
 
 create database `register`;
+
 --------------------------------------------------
 
 then create table *records* in `register` for contacts by this command:
@@ -19,6 +21,7 @@ create table records(
     avatar varchar(200),
     PRIMARY KEY (id)
 );
+
 --------------------------------------------------
 
 also create table *users* in `register` for admin by this command:
@@ -30,6 +33,8 @@ create table users(
     password varchar(50),
     PRIMARY KEY (id)
 );
+
+--------------------------------------------------
 
 ## check username and password at <db.php> file
 
